@@ -1,8 +1,6 @@
 package com.devsuperior.dscommerce.entities;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 import jakarta.persistence.Column;
@@ -10,23 +8,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "tb_user")
-public class User {
+@Table(name = "tb_payment")
+public class Payment {
 
     @EqualsAndHashCode.Include
     @NonNull
@@ -35,25 +31,13 @@ public class User {
     private Long id;
 
     @NonNull
-    private String name;
-
-    @NonNull
-    private String email;
-
-    @NonNull
-    private String phone;
-
-    @NonNull
     @CreationTimestamp(source = SourceType.DB)
     @Column(columnDefinition = "timestamp without time zone")
-    private LocalDate birthdate;
+    private Instant moment;
 
     @NonNull
-    private String password;
-
-    @Setter(AccessLevel.NONE)
-    @ToString.Exclude
-    @OneToMany(mappedBy = "client")
-    private List<Order> orders = new ArrayList<>();
+    @OneToOne
+    @MapsId
+    private Order order;
 
 }
