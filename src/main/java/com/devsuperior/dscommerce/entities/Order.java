@@ -2,6 +2,7 @@ package com.devsuperior.dscommerce.entities;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
@@ -57,5 +58,9 @@ public class Order {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
+
+    public List<Product> getProducts() {
+        return items.stream().map(x -> x.getProduct()).toList();
+    }
 
 }

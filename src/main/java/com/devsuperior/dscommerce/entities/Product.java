@@ -1,6 +1,7 @@
 package com.devsuperior.dscommerce.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,5 +56,9 @@ public class Product {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "id.product")
     private Set<OrderItem> items = new HashSet<>();
+
+    public List<Order> getOrders() {
+        return items.stream().map(x -> x.getOrder()).toList();
+    }
 
 }
