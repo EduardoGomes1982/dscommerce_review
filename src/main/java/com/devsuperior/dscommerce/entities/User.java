@@ -38,6 +38,7 @@ public class User {
     private String name;
 
     @NonNull
+    @Column(unique = true)
     private String email;
 
     @NonNull
