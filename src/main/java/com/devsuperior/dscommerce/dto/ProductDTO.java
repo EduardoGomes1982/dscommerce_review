@@ -1,30 +1,30 @@
 package com.devsuperior.dscommerce.dto;
 
 import com.devsuperior.dscommerce.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@Getter
-@NoArgsConstructor
 @RequiredArgsConstructor
+@Getter
 public class ProductDTO {
 
-    @NonNull
-    private Long id;
+    private final Long id;
 
-    @NonNull
-    private String name;
+    @NotBlank(message = "Required field")
+    @Size(min = 3, max = 80, message = "The name must have between 3 and 80 characters")
+    private final String name;
 
-    @NonNull
-    private Double price;
+    @Positive(message = "The price must be greater than zero")
+    private final Double price;
 
-    @NonNull
-    private String description;
+    @NotBlank(message = "Required field")
+    @Size(min = 10, message = "The description must have at least 10 characters")
+    private final String description;
 
-    @NonNull
-    private String imageUrl;
+    private final String imageUrl;
 
     public ProductDTO(Product entity) {
         id = entity.getId();
