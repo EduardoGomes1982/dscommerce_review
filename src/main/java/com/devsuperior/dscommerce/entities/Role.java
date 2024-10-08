@@ -1,5 +1,6 @@
 package com.devsuperior.dscommerce.entities;
 
+import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "tb_role")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @NonNull
     @Id

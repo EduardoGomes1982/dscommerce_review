@@ -54,7 +54,7 @@ insert into tb_product_category (product_id, category_id) values (24, 3);
 insert into tb_product_category (product_id, category_id) values (25, 3);
 insert into tb_user (name, email, phone, password, birthdate) values ('Alex Green', 'alex@gmail.com', '977777777', '$2a$10$XqDkhUc0ClCTZxt42gA4euF6GLeRloVpHmkVW2lAeTHiHahF0ua7K', '1987-12-13');
 insert into tb_user (name, email, phone, password, birthdate) values ('Maria Brown', 'maria@gmail.com', '988888888', '$2a$10$XqDkhUc0ClCTZxt42gA4euF6GLeRloVpHmkVW2lAeTHiHahF0ua7K', '2001-07-25');
-insert into tb_role (authority) values ('ROLE_OPERATOR');
+insert into tb_role (authority) values ('ROLE_CLIENT');
 insert into tb_role (authority) values ('ROLE_ADMIN');
 insert into tb_user_role (user_id, role_id) values (1, 1);
 insert into tb_user_role (user_id, role_id) values (2, 1);
