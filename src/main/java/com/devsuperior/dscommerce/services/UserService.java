@@ -2,9 +2,12 @@ package com.devsuperior.dscommerce.services;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscommerce.dto.UserDTO;
@@ -31,10 +34,20 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User result = repository.findByEmail(username);
-        if (result == null)
-            throw new UsernameNotFoundException("User not found");
+        User result = repository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return result;
+    }
+
+    protected User authenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String username = jwt.getClaim("username");
+        return (User) loadUserByUsername(username);
+    }
+
+    public UserDTO getMe() {
+        return new UserDTO(authenticated());
     }
 
 }
