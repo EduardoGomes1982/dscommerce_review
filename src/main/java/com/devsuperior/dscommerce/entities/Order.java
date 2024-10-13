@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,8 +25,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "moment", "status"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -53,10 +57,12 @@ public class Order {
 
     @NonNull
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Payment payment;
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "id.order")
+    @JsonManagedReference
     private Set<OrderItem> items = new HashSet<>();
 
     public List<Product> getProducts() {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscommerce.dto.ProductDTO;
+import com.devsuperior.dscommerce.dto.ProductMinDTO;
+import com.devsuperior.dscommerce.entities.Category;
 import com.devsuperior.dscommerce.entities.Product;
 import com.devsuperior.dscommerce.repository.ProductRepository;
 import com.devsuperior.dscommerce.services.exceptions.DatabaseException;
@@ -17,17 +19,19 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ProductService {
 
+    private static final String RESOURCE_NOT_FOUND = "Resource not found";
+
     @Autowired
     private ProductRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(String name, Pageable pageable) {
-        return repository.searchByName(name, pageable).map(ProductDTO::new);
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
+        return repository.searchByName(name, pageable).map(ProductMinDTO::new);
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        return new ProductDTO(repository.findById(id)
+        return new ProductDTO(repository.findByIdFetchCategories(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Resource not found")));
     }
 
@@ -65,15 +69,14 @@ public class ProductService {
             entity.setDescription(dto.getDescription());
             entity.setPrice(dto.getPrice());
             entity.setImageUrl(dto.getImageUrl());
-            // entity.getCategories().clear();
-
-            // dto.getCategories().forEach(c -> {
-            // Category cat = new Category();
-            // cat.setId(c.getId());
-            // entity.getCategories().add(cat);
-            // });
+            entity.getCategories().clear();
+            dto.getCategories().forEach(c -> {
+                Category cat = new Category();
+                cat.setId(c.getId());
+                entity.getCategories().add(cat);
+            });
         } catch (EntityNotFoundException e) {
-            // throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
+            throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
         }
     }
 

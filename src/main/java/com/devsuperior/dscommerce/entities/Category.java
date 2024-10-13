@@ -2,6 +2,7 @@ package com.devsuperior.dscommerce.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +16,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "name"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -34,6 +38,7 @@ public class Category {
 
     @Setter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "categories")
+    @JsonManagedReference
     private Set<Product> products = new HashSet<>();
 
 }

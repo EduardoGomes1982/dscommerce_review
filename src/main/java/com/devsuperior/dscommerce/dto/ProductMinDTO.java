@@ -1,19 +1,15 @@
 package com.devsuperior.dscommerce.dto;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.devsuperior.dscommerce.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @RequiredArgsConstructor
 @Getter
-public class ProductDTO {
+public class ProductMinDTO {
 
     private final Long id;
 
@@ -24,22 +20,13 @@ public class ProductDTO {
     @Positive(message = "The price must be greater than zero")
     private final Double price;
 
-    @NotBlank(message = "Required field")
-    @Size(min = 10, message = "The description must have at least 10 characters")
-    private final String description;
-
     private final String imageUrl;
 
-    @Setter(AccessLevel.NONE)
-    private List<CategoryDTO> categories = new ArrayList<>();
-
-    public ProductDTO(Product entity) {
+    public ProductMinDTO(Product entity) {
         id = entity.getId();
         name = entity.getName();
         price = entity.getPrice();
-        description = entity.getDescription();
         imageUrl = entity.getImageUrl();
-        categories = entity.getCategories().stream().map(CategoryDTO::new).toList();
     }
 
 }

@@ -30,6 +30,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "name", "email", "phone", "birthdate"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -61,7 +63,6 @@ public class User implements UserDetails {
     private String password;
 
     @Setter(AccessLevel.NONE)
-    @ToString.Exclude
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 

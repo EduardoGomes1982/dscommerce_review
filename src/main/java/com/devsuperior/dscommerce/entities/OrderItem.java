@@ -9,8 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "quantity", "price"})
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_order_item")

@@ -11,8 +11,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "authority"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity

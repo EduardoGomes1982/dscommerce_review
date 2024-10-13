@@ -3,6 +3,8 @@ package com.devsuperior.dscommerce.entities;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,8 +22,11 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "name", "description", "price", "imageUrl"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -51,10 +56,12 @@ public class Product {
     @ManyToMany
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JsonBackReference
     private Set<Category> categories = new HashSet<>();
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "id.product")
+    @JsonManagedReference
     private Set<OrderItem> items = new HashSet<>();
 
     public List<Order> getOrders() {

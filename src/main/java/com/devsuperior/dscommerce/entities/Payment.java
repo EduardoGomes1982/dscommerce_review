@@ -3,6 +3,7 @@ package com.devsuperior.dscommerce.entities;
 import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,8 +17,11 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(of = {"id", "moment"})
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -38,6 +42,7 @@ public class Payment {
     @NonNull
     @OneToOne
     @MapsId
+    @JsonBackReference
     private Order order;
 
 }
