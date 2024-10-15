@@ -32,7 +32,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         return new ProductDTO(repository.findByIdFetchCategories(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found")));
+                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND)));
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class ProductService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public void delete(Long id) {
         if (!repository.existsById(id))
-            throw new ResourceNotFoundException("Resource not found");
+            throw new ResourceNotFoundException(RESOURCE_NOT_FOUND);
 
         try {
             repository.deleteById(id);
